@@ -8,10 +8,10 @@ export const dynamic = 'force-dynamic'
 
 export default function Home() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center">
+    <main className="relative flex flex-col items-center justify-center min-h-screen">
       <Link
         href="https://vercel.com/templates/next.js/kv-redis-starter"
-        className="group mt-20 sm:mt-0 rounded-full flex space-x-1 bg-white/30 shadow-sm ring-1 ring-gray-900/5 text-gray-600 text-sm font-medium px-10 py-2 hover:shadow-lg active:shadow-sm transition-all"
+        className="flex px-10 py-2 mt-20 space-x-1 text-sm font-medium text-gray-600 transition-all rounded-full shadow-sm group sm:mt-0 bg-white/30 ring-1 ring-gray-900/5 hover:shadow-lg active:shadow-sm"
       >
         <p>Deploy your own to Vercel</p>
         <ExpandingArrow />
@@ -19,8 +19,8 @@ export default function Home() {
       <h1 className="pt-4 pb-8 bg-gradient-to-br from-black via-[#171717] to-[#575757] bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl">
         KV on Vercel
       </h1>
-      <div className="bg-white/30 p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full">
-        <div className="flex justify-between items-center mb-4">
+      <div className="w-full max-w-xl p-12 mx-auto rounded-lg shadow-xl bg-white/30 ring-1 ring-gray-900/5 backdrop-blur-lg">
+        <div className="flex items-center justify-between mb-4">
           <div className="space-y-1">
             <h2 className="text-xl font-semibold">
               Announcing Vercel KV for Redis
@@ -49,23 +49,23 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <p className="font-light text-gray-600 w-full max-w-lg text-center mt-6">
+      <p className="w-full max-w-lg mt-6 font-light text-center text-gray-600">
         <Link
           href="https://vercel.com/kv"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
+          className="font-medium underline transition-colors underline-offset-4 hover:text-black"
         >
           Vercel KV for Redis
         </Link>{' '}
         demo. Built with{' '}
         <Link
           href="https://nextjs.org/docs"
-          className="font-medium underline underline-offset-4 hover:text-black transition-colors"
+          className="font-medium underline transition-colors underline-offset-4 hover:text-black"
         >
           Next.js App Router
         </Link>
         .
       </p>
-      <div className="sm:absolute sm:bottom-0 w-full px-20 py-10 flex justify-between">
+      <div className="flex justify-between w-full px-20 py-10 sm:absolute sm:bottom-0">
         <Link href="https://vercel.com">
           <Image
             src="/vercel.svg"
