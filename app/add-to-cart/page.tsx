@@ -2,6 +2,10 @@ import ProductCard from "@/components/ProductCard";
 import CartItem from "@/components/CartItem";
 import { type Cart } from "./action";
 import { kv } from "@vercel/kv";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/libs/auth";
+import { Session } from "next-auth";
+import { redirect } from "next/navigation";
 
 export type Product = {
     id: number,
@@ -28,10 +32,15 @@ export const products: Product[] = [
 ];
 
 export default async function AddToCart() {
-    const cart: Cart | null = await kv.get("cart");
+    const session: Session | null = await getServerSession(authOptions);
 
-    const total = cart?.items.map(item => item.quantity * item.price)
-        .reduce((sum, current) => sum = sum + current);
+    if (!session) {
+        redirect('/login');
+    }
+    
+    const userId = session.user._id;
+    const cart: Cart | null = await kv.get(`cart-${userId}`);
+    const total = cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
     return (
         <main className="flex flex-col items-center min-h-screen p-24 bg-slate-950">
@@ -42,6 +51,7 @@ export default async function AddToCart() {
                     {products.map(product =>
                         <ProductCard key={product.id}
                             id={product.id}
+                            userId={userId}
                             name={product.name}
                             price={product.price}
                         />
@@ -56,6 +66,8 @@ export default async function AddToCart() {
                     {cart?.items ? cart.items.map((item, index) =>
                         <CartItem key={item.id}
                             no={index + 1}
+                            id={item.id}
+                            userId={userId}
                             name={item.name}
                             price={item.price}
                             quantity={item.quantity}

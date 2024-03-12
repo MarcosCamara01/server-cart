@@ -8,12 +8,13 @@ import CoffeeImage from "@/public/product.png";
 
 type ProductCartProps = {
     id: number,
+    userId: string;
     name: string
     price: number,
 }
 
 export default function ProductCard({
-    id, name, price
+    id, userId, name, price
 }: ProductCartProps) {
     let [isPending, startTransition] = useTransition()
 
@@ -27,10 +28,10 @@ export default function ProductCard({
             <button
                 className="w-full px-2 py-1 mt-4 text-sm font-semibold text-center rounded-md bg-slate-100 text-slate-800"
                 onClick={() => {
-                    startTransition(() => addItem(id));
+                    startTransition(() => addItem(userId, id));
                 }}
             >
-                Add To Cart
+                {isPending ? "Loading..." : "Add To Cart"}
             </button>
         </div>
     )

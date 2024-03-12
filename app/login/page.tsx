@@ -1,16 +1,20 @@
-import { redirect } from "next/navigation";
+import React from 'react';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/auth";
 import { Session } from "next-auth";
+import { redirect } from 'next/navigation';
+import Signin from '@/components/auth/Signin';
 
-export const dynamic = 'force-dynamic';
-
-export default async function Home() {
+const Login = async () => {
   const session: Session | null = await getServerSession(authOptions);
 
   if (session) {
     redirect('/add-to-cart');
   } else {
-    redirect('/login');
+    return (
+      <Signin />
+    )
   }
 }
+
+export default Login;
