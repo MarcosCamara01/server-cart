@@ -15,7 +15,7 @@ export type Cart = {
 }
 
 export async function addItem(userId: string, productId: number) {
-    let cart: Cart | null = await kv.get(`cart-${userId}`);
+    let cart: Cart | null = await kv.get(`testcart-${userId}`);
 
     const selectedProduct: Product | undefined = products.find(product => product.id === productId);
 
@@ -58,12 +58,12 @@ export async function addItem(userId: string, productId: number) {
 
     console.log('Updated Cart:', myCart);
 
-    await kv.set(`cart-${userId}`, myCart);
+    await kv.set(`testcart-${userId}`, myCart);
     revalidatePath('/add-to-cart');
 }
 
 export async function delItem(userId: string, productId: number) {
-    let cart: Cart | null = await kv.get(`cart-${userId}`);
+    let cart: Cart | null = await kv.get(`testcart-${userId}`);
 
     if (cart && cart.items) {
         const updatedCart = {
@@ -71,13 +71,13 @@ export async function delItem(userId: string, productId: number) {
             items: cart.items.filter(item => item.id !== productId),
         };
 
-        await kv.set(`cart-${userId}`, updatedCart);
+        await kv.set(`testcart-${userId}`, updatedCart);
         revalidatePath('/add-to-cart');
     }
 }
 
 export async function delOneItem(userId: string, productId: number) {
-    let cart: Cart | null = await kv.get(`cart-${userId}`);
+    let cart: Cart | null = await kv.get(`testcart-${userId}`);
 
     if (cart && cart.items) {
         const updatedCart = {
@@ -94,7 +94,7 @@ export async function delOneItem(userId: string, productId: number) {
             }).filter(Boolean) as Cart['items'],
         };
 
-        await kv.set(`cart-${userId}`, updatedCart);
+        await kv.set(`testcart-${userId}`, updatedCart);
         revalidatePath('/add-to-cart');
     }
 }

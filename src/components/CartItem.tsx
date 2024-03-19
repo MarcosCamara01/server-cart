@@ -18,7 +18,7 @@ export default function CartItem({
 }: CartItemProps) {
     let [isPending, startTransition] = useTransition()
 
-    return <div className="flex justify-between text-slate-400">
+    return <div className="flex justify-between text-slate-900">
         <div className="w-[40%] flex gap-2 items-center">
             <span className="text-sm text-slate-600">{no}</span>
             <span>{name}</span>
@@ -26,7 +26,7 @@ export default function CartItem({
         <div className="w-[30%] text-center">{quantity}</div>
         <div className="w-[30%] text-right">{formatNumber(quantity * price)}</div>
         <button
-            className="px-1 py-0.5 mt-4 text-sm font-semibold text-center rounded-md bg-slate-100 text-slate-800"
+            className="text-sm font-semibold hover:text-slate-600"
             onClick={() => {
                 startTransition(() => delItem(userId, id));
             }}
@@ -34,7 +34,7 @@ export default function CartItem({
             Delete all items
         </button>
         <button
-            className="px-1 py-0.5 mt-4 text-sm font-semibold text-center rounded-md bg-slate-100 text-slate-800"
+            className="text-sm font-semibold hover:text-slate-600"
             onClick={() => {
                 startTransition(() => delOneItem(userId, id));
             }}
