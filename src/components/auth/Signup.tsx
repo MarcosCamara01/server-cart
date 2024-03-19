@@ -1,16 +1,10 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
+import { useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import { BiLogoGoogle } from 'react-icons/bi';
-import { BiSolidShow } from 'react-icons/bi';
-import { BiSolidHide } from 'react-icons/bi';
 
 const Signup = () => {
-    const [error, setError] = useState();
-    const [showPassword, setShowPassword] = useState(false);
     const { data: session } = useSession();
 
     useEffect(() => {
@@ -19,84 +13,13 @@ const Signup = () => {
         }
     }, [session]);
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        try {
-            const formData = new FormData(event.currentTarget);
-            const signupResponse = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/auth/signup`, {
-                email: formData.get("email"),
-                password: formData.get("password"),
-                name: formData.get("name"),
-            });
-
-            const res = await signIn("credentials", {
-                email: signupResponse.data.email,
-                password: formData.get("password"),
-                redirect: false,
-            });
-
-        } catch (error) {
-            console.log(error);
-            if (error instanceof AxiosError) {
-                const errorMessage = error.response?.data.message;
-                setError(errorMessage);
-            }
-        }
-    };
-
     return (
         <section className="flex items-center justify-center w-full h-screen px-4">
             <form
-                onSubmit={handleSubmit}
                 className="p-6 xs:p-10 w-full max-w-[350px] flex flex-col justify-between items-center gap-2.5	
                 bg-white rounded text-black"
             >
-                {error && <div className="">{error}</div>}
                 <h1 className="w-full my-5 text-2xl font-bold">Create an account</h1>
-
-                <input
-                    type="text"
-                    placeholder="Fullname"
-                    className="w-full h-10 border border-solid border-[#4D4D4F] py-2 px-3 rounded bg-white text-[13px] focus:outline-none focus:border-[#4D4D4F]"
-                    name="name"
-                />
-
-                <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full h-10 mt-2.5 border border-solid border-[#4D4D4F] py-2 px-3 rounded bg-white text-[13px] focus:outline-none focus:border-[#4D4D4F]"
-                    name="email"
-                />
-
-                <div className="flex w-full mt-2.5">
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        className="w-full h-10 border border-solid border-[#4D4D4F] py-2 px-3 rounded-l bg-white text-[13px] focus:outline-none focus:border-[#4D4D4F]"
-                        name="password"
-                    />
-                    <button
-                        className="w-2/12	border-y border-r border-solid border-[#4D4D4F] bg-white rounded-r 
-                        flex items-center justify-center transition duration-150 ease hover:bg-[#202123]"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setShowPassword(!showPassword)
-                        }}
-                    >
-                        {showPassword ? <BiSolidHide /> : <BiSolidShow />}
-                    </button>
-                </div>
-
-                <button className="w-full h-10 bg-[#181818] text-white border border-solid border-[#4D4D4F] py-2 px-3 mt-4 rounded
-                        transition duration-150 ease hover:bg-[#18181BE6] text-[13px]"
-                >
-                    Signup
-                </button>
-
-                <div className="relative flex items-center justify-center w-full h-10">
-                    <div className="absolute h-px w-full top-2/4 bg-gray-400"></div>
-                    <p className="w-8 h-6 bg-white text-gray-900 z-10 text-xs flex items-center justify-center">OR</p>
-                </div>
 
                 <button
                     className="w-full h-10 justify-center flex py-1.5 px-4 text-sm align-middle items-center rounded text-999 bg-[#F4F4F5]  
@@ -105,10 +28,35 @@ const Signup = () => {
                         e.preventDefault();
                         signIn("google")
                     }}>
-                    <BiLogoGoogle className="text-2xl" /> Sign in with Google
+                    <svg
+                        data-testid="geist-icon"
+                        height="24"
+                        strokeLinejoin="round"
+                        viewBox="0 0 16 16"
+                        width="24"
+                        style={{ color: 'currentColor' }}
+                    >
+                        <path
+                            d="M8.15991 6.54543V9.64362H12.4654C12.2763 10.64 11.709 11.4837 10.8581 12.0509L13.4544 14.0655C14.9671 12.6692 15.8399 10.6182 15.8399 8.18188C15.8399 7.61461 15.789 7.06911 15.6944 6.54552L8.15991 6.54543Z"
+                            fill="#4285F4"
+                        ></path>
+                        <path
+                            d="M3.6764 9.52268L3.09083 9.97093L1.01807 11.5855C2.33443 14.1963 5.03241 16 8.15966 16C10.3196 16 12.1305 15.2873 13.4542 14.0655L10.8578 12.0509C10.1451 12.5309 9.23598 12.8219 8.15966 12.8219C6.07967 12.8219 4.31245 11.4182 3.67967 9.5273L3.6764 9.52268Z"
+                            fill="#34A853"
+                        ></path>
+                        <path
+                            d="M1.01803 4.41455C0.472607 5.49087 0.159912 6.70543 0.159912 7.99995C0.159912 9.29447 0.472607 10.509 1.01803 11.5854C1.01803 11.5926 3.6799 9.51991 3.6799 9.51991C3.5199 9.03991 3.42532 8.53085 3.42532 7.99987C3.42532 7.46889 3.5199 6.95983 3.6799 6.47983L1.01803 4.41455Z"
+                            fill="#FBBC05"
+                        ></path>
+                        <path
+                            d="M8.15982 3.18545C9.33802 3.18545 10.3853 3.59271 11.2216 4.37818L13.5125 2.0873C12.1234 0.792777 10.3199 0 8.15982 0C5.03257 0 2.33443 1.79636 1.01807 4.41455L3.67985 6.48001C4.31254 4.58908 6.07983 3.18545 8.15982 3.18545Z"
+                            fill="#EA4335"
+                        ></path>
+                    </svg>
+                    Sign in with Google
                 </button>
 
-                <Link href="/login" className="text-sm	text-gray-500 transition duration-150 ease hover:text-black">
+                <Link href="/login" className="text-sm text-gray-500 transition duration-150 ease hover:text-black">
                     Already have an account?
                 </Link>
             </form>

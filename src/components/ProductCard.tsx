@@ -4,7 +4,7 @@ import Image from "next/image";
 import { formatNumber } from "@/utils/format";
 import { useTransition } from "react";
 import { addItem } from "@/app/add-to-cart/action";
-import CoffeeImage from "@/public/coffe.jpg";
+import CoffeeImage from "../../public/coffe.jpg";
 
 type ProductCartProps = {
     id: number,
@@ -30,7 +30,7 @@ export default function ProductCard({
                 onClick={() => {
                     startTransition(() => addItem(userId, id));
                 }}
-            >   
+            >
                 {isPending ?
                     <div className="grid w-full overflow-x-scroll rounded-lg place-items-center lg:overflow-visible">
                         <svg className="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
